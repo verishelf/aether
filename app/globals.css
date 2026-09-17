@@ -123,3 +123,10 @@ button { cursor: pointer; }
 :root[data-theme="dark"] .app-topbar-brand { color: #f5f5f3; }.network-page .network-header .wordmark { color: inherit; }
 @media (max-width: 700px) { .app-topbar-brand { display: none; }.search-bar { margin: 0; max-width: none; width: 58%; }.app-topbar { gap: 12px; }.network-header { height: 66px; }.auth-page > .wordmark { top: 28px; } }
 @media (max-width: 700px) { .dashboard-header { height: 66px; padding: 0 6vw; }.dashboard-header .app-topbar-brand { display: block; font-size: 12px; }.dashboard-header .search-bar { margin: 0 10px; width: auto; }.dashboard-account-copy { display: none; }.dashboard-header .topbar-actions { gap: 0; }.dashboard-content { padding-top: 66px; }.app-sidebar { top: 66px; } }
+
+/* Light-theme readability and settings alignment. */
+body { font-size: 17px; }
+:root { --background: #fafaf8; --muted: #5f5f5b; --line: rgba(0, 0, 0, 0.24); --soft-line: rgba(0, 0, 0, 0.15); }
+.site-shell, .manifesto, .circles-section, .access-section, .auth-page, .placeholder-page, .app-page, .app-sidebar, .dashboard-header { background: var(--background); }
+.settings-page { padding-left: 8vw; padding-right: 8vw; }.account-settings { margin-left: 0; margin-right: 0; max-width: 920px; }.settings-section { display: grid; gap: 50px; grid-template-columns: minmax(210px, .8fr) minmax(300px, 1.2fr); justify-content: initial; }.settings-section > :last-child { justify-self: start; }.settings-fields, .settings-options { min-width: 0; width: min(100%, 430px); }.settings-fields input, .settings-fields select, .settings-fields textarea { font-size: 16px; }.settings-options strong, .settings-fields label, .settings-options small { font-size: 12px; }.settings-action, .settings-danger-action { font-size: 12px; }.membership-panel, .asset-manager { margin-left: 0; margin-right: 0; max-width: 920px; }
+@media (max-width: 700px) { .settings-section { display: flex; flex-direction: column; gap: 25px; }.settings-section > :last-child { width: 100%; }.settings-page { padding-left: 8vw; padding-right: 8vw; } }
