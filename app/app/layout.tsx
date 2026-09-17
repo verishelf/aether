@@ -8,5 +8,11 @@ export default async function AppLayout({ children }: Readonly<{ children: React
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
   const name = String(user.user_metadata?.full_name || user.email?.split("@")[0] || "Member");
-  return <><AppHeader name={name} email={user.email ?? ""} /><div className="dashboard-content">{children}</div></>;
+  let { data: profile } = await supabase.from("profiles").select("username").eq("id", user.id).maybeSingle();
+  if (!profile) {
+    const username = (user.email?.split("@")[0] || "member").toLowerCase().replace(/[^a-z0-9_]/g, "_").slice(0, 30);
+    const { data: created } = await supabase.from("profiles").insert({ id: user.id, display_name: name, username }).select("username").maybeSingle();
+    profile = created;
+  }
+  return <><AppHeader name={name} email={user.email ?? ""} username={profile?.username ?? user.email?.split("@")[0] ?? "member"} /><div className="dashboard-content">{children}</div></>;
 }

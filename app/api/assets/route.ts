@@ -28,3 +28,25 @@ export async function POST(request: Request) {
   if (error) return NextResponse.json({ error: "Unable to save asset." }, { status: 500 });
   return NextResponse.json({ saved: true });
 }
+
+export async function PATCH(request: Request) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { id, title, description, maker, year, category, visibility } = await request.json() as { id?: string; title?: string; description?: string; maker?: string; year?: number | null; category?: string; visibility?: string };
+  if (!id || !title || !category || !["public", "circles", "private"].includes(visibility ?? "")) return NextResponse.json({ error: "Asset details are incomplete." }, { status: 400 });
+  const { error } = await supabase.from("assets").update({ title: title.trim(), description: description?.trim() || null, maker: maker?.trim() || null, year: year || null, category: category.trim(), visibility, updated_at: new Date().toISOString() }).eq("id", id).eq("user_id", user.id);
+  if (error) return NextResponse.json({ error: "Unable to update asset." }, { status: 500 });
+  return NextResponse.json({ saved: true });
+}
+
+export async function DELETE(request: Request) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const id = new URL(request.url).searchParams.get("id");
+  if (!id) return NextResponse.json({ error: "Asset id is required." }, { status: 400 });
+  const { error } = await supabase.from("assets").delete().eq("id", id).eq("user_id", user.id);
+  if (error) return NextResponse.json({ error: "Unable to delete asset." }, { status: 500 });
+  return NextResponse.json({ deleted: true });
+}

@@ -61,6 +61,7 @@ alter table public.verification_requests enable row level security;
 alter table public.assets enable row level security;
 
 create policy "profiles are visible to authenticated members" on public.profiles for select to authenticated using (true);
+create policy "users can create their profile" on public.profiles for insert to authenticated with check (auth.uid() = id);
 create policy "users can update their profile" on public.profiles for update to authenticated using (auth.uid() = id) with check (auth.uid() = id);
 create policy "users can read their subscription" on public.subscriptions for select to authenticated using (auth.uid() = user_id);
 create policy "users can read their own verification request" on public.verification_requests for select to authenticated using (auth.uid() = user_id);
