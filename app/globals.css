@@ -126,7 +126,11 @@ button { cursor: pointer; }
 
 /* Light-theme readability and settings alignment. */
 body { font-size: 17px; }
-:root { --background: #fafaf8; --muted: #5f5f5b; --line: rgba(0, 0, 0, 0.24); --soft-line: rgba(0, 0, 0, 0.15); }
+:root { --background: #f5f5f3; --muted: #5f5f5b; --line: rgba(0, 0, 0, 0.24); --soft-line: rgba(0, 0, 0, 0.15); }
 .site-shell, .manifesto, .circles-section, .access-section, .auth-page, .placeholder-page, .app-page, .app-sidebar, .dashboard-header { background: var(--background); }
 .settings-page { padding-left: 8vw; padding-right: 8vw; }.account-settings { margin-left: 0; margin-right: 0; max-width: 920px; }.settings-section { display: grid; gap: 50px; grid-template-columns: minmax(210px, .8fr) minmax(300px, 1.2fr); justify-content: initial; }.settings-section > :last-child { justify-self: start; }.settings-fields, .settings-options { min-width: 0; width: min(100%, 430px); }.settings-fields input, .settings-fields select, .settings-fields textarea { font-size: 16px; }.settings-options strong, .settings-fields label, .settings-options small { font-size: 12px; }.settings-action, .settings-danger-action { font-size: 12px; }.membership-panel, .asset-manager { margin-left: 0; margin-right: 0; max-width: 920px; }
 @media (max-width: 700px) { .settings-section { display: flex; flex-direction: column; gap: 25px; }.settings-section > :last-child { width: 100%; }.settings-page { padding-left: 8vw; padding-right: 8vw; } }
+
+/* Keep authenticated surfaces compact; reserve display scale for the landing page. */
+.settings-page .section-title, .explore-page .section-title, .network-page .section-title, .profile-page .section-title, .verification-page .section-title { font-size: clamp(44px, 5vw, 72px); line-height: .9; margin-bottom: 28px; }
+@media (max-width: 700px) { .settings-page .section-title, .explore-page .section-title, .network-page .section-title, .profile-page .section-title, .verification-page .section-title { font-size: 48px; } }
