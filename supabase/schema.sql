@@ -68,6 +68,18 @@ alter table public.verification_requests enable row level security;
 alter table public.assets enable row level security;
 alter table public.posts enable row level security;
 
+drop policy if exists "profiles are visible to authenticated members" on public.profiles;
+drop policy if exists "users can create their profile" on public.profiles;
+drop policy if exists "users can update their profile" on public.profiles;
+drop policy if exists "users can read their subscription" on public.subscriptions;
+drop policy if exists "users can read their own verification request" on public.verification_requests;
+drop policy if exists "users can create their verification request" on public.verification_requests;
+drop policy if exists "public assets are visible to members" on public.assets;
+drop policy if exists "owners can manage assets" on public.assets;
+drop policy if exists "members can read posts" on public.posts;
+drop policy if exists "members can create posts" on public.posts;
+drop policy if exists "owners can manage asset images" on storage.objects;
+
 create policy "profiles are visible to authenticated members" on public.profiles for select to authenticated using (true);
 create policy "users can create their profile" on public.profiles for insert to authenticated with check (auth.uid() = id);
 create policy "users can update their profile" on public.profiles for update to authenticated using (auth.uid() = id) with check (auth.uid() = id);
