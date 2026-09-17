@@ -54,11 +54,19 @@ create table if not exists public.assets (
   updated_at timestamptz not null default now()
 );
 
+create table if not exists public.posts (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  body text not null check (char_length(body) between 1 and 1000),
+  created_at timestamptz not null default now()
+);
+
 alter table public.profiles enable row level security;
 alter table public.subscriptions enable row level security;
 alter table public.plaid_items enable row level security;
 alter table public.verification_requests enable row level security;
 alter table public.assets enable row level security;
+alter table public.posts enable row level security;
 
 create policy "profiles are visible to authenticated members" on public.profiles for select to authenticated using (true);
 create policy "users can create their profile" on public.profiles for insert to authenticated with check (auth.uid() = id);
@@ -68,6 +76,8 @@ create policy "users can read their own verification request" on public.verifica
 create policy "users can create their verification request" on public.verification_requests for insert to authenticated with check (auth.uid() = user_id);
 create policy "public assets are visible to members" on public.assets for select to authenticated using (visibility = 'public' or auth.uid() = user_id);
 create policy "owners can manage assets" on public.assets for all to authenticated using (auth.uid() = user_id) with check (auth.uid() = user_id);
+create policy "members can read posts" on public.posts for select to authenticated using (true);
+create policy "members can create posts" on public.posts for insert to authenticated with check (auth.uid() = user_id);
 
 insert into storage.buckets (id, name, public) values ('asset-images', 'asset-images', false) on conflict (id) do nothing;
 create policy "owners can manage asset images" on storage.objects for all to authenticated using (bucket_id = 'asset-images' and (storage.foldername(name))[1] = auth.uid()::text) with check (bucket_id = 'asset-images' and (storage.foldername(name))[1] = auth.uid()::text);
