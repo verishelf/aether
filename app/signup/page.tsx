@@ -31,7 +31,7 @@ export default function SignupPage() {
     if (result.authenticated) {
       window.location.assign("/app/feed");
     } else {
-      setMessage("Your application is received. Check your email to confirm your membership.");
+      setMessage("Account created. Check your email and confirm your address, then sign in to enter the dashboard.");
     }
   }
 
