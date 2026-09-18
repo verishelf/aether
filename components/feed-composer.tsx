@@ -13,7 +13,7 @@ export function FeedComposer({ initials }: { initials: string }) {
     setPosting(true); setError("");
     const response = await fetch("/api/posts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ body: copy }) });
     const result = await response.json();
-    if (!response.ok) setError(result.error ?? "Unable to publish your note."); else window.location.reload();
+    if (!response.ok) setError(result.error ?? "Unable to publish your note."); else { setCopy(""); window.location.reload(); }
     setPosting(false);
   }
 
