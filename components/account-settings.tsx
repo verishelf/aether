@@ -56,7 +56,7 @@ export function AccountSettings({ email, displayName: initialDisplayName, userna
       <form className="settings-section settings-profile-form" onSubmit={saveProfile}>
         <div>
           <h2>Profile</h2>
-          <p>How your name appears across AETHER.</p>
+          <p>How your name appears across WealthCircle.</p>
         </div>
         <div className="settings-fields">
           <label>Display name<input value={displayName} onChange={(event) => setDisplayName(event.target.value)} required /></label>
@@ -67,7 +67,7 @@ export function AccountSettings({ email, displayName: initialDisplayName, userna
       <section className="settings-section">
         <div>
           <h2>Privacy</h2>
-          <p>Control how your profile appears inside AETHER.</p>
+          <p>Control how your profile appears inside WealthCircle.</p>
         </div>
         <div className="settings-options">
           <label><span><strong>Profile visibility</strong><small>Allow members to view your profile.</small></span><input type="checkbox" checked={profileVisible} onChange={(event) => savePreference("profile_visible", event.target.checked)} /></label>

@@ -10,7 +10,7 @@ export async function POST() {
   if (isVerificationException(user.email)) return NextResponse.json({ verified: true });
   if (!process.env.PLAID_CLIENT_ID || !process.env.PLAID_SECRET) return NextResponse.json({ error: "Plaid is not configured." }, { status: 503 });
   try {
-    const { data } = await plaid.linkTokenCreate({ user: { client_user_id: user.id }, client_name: "AETHER", language: "en", country_codes: plaidCountryCodes, products: plaidProducts });
+    const { data } = await plaid.linkTokenCreate({ user: { client_user_id: user.id }, client_name: "WealthCircle", language: "en", country_codes: plaidCountryCodes, products: plaidProducts });
     return NextResponse.json({ link_token: data.link_token });
   } catch { return NextResponse.json({ error: "Unable to start verification." }, { status: 502 }); }
 }

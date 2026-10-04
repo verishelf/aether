@@ -31,7 +31,7 @@ export function MobileAppMenu() {
         <div className="mobile-app-menu-layer">
           <button aria-label="Close navigation menu" className="mobile-app-menu-backdrop" onClick={() => setOpen(false)} type="button" />
           <nav aria-label="App navigation" className="mobile-app-menu-panel">
-            <span className="eyebrow">AETHER / Navigation</span>
+            <span className="eyebrow">WealthCircle / Navigation</span>
             {items.map(({ href, label, icon: Icon }) => (
               <Link href={href} key={href} onClick={() => setOpen(false)}>
                 <Icon size={18} />

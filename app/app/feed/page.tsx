@@ -48,7 +48,7 @@ export default async function FeedPage() {
         <div className="feed-empty">
           <Sparkles size={18} />
           <h2>Your feed is ready for its first note.</h2>
-          <p>Share a thought or explore the network to begin your AETHER experience.</p>
+          <p>Share a thought or explore the network to begin your WealthCircle experience.</p>
           <Link href="/app/explore">Explore the network <span>↗</span></Link>
         </div>
       )}

@@ -14,9 +14,9 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "AETHER | The private network",
+  title: "WealthCircle | The private network",
   description: "A private social network for those who already have everything.",
-  openGraph: { title: "AETHER | The private network", description: "A quieter kind of connection.", type: "website" },
+  openGraph: { title: "WealthCircle | The private network", description: "A quieter kind of connection.", type: "website" },
 };
 
 export default function RootLayout({

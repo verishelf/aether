@@ -2,12 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Boxes, Compass, Home, Layers3, MessageCircle, Search, Settings, UsersRound } from "lucide-react";
+import { Boxes, Compass, Home, Layers3, MessageCircle, Search, Settings } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { MobileAppMenu } from "@/components/mobile-app-menu";
 
-type OnlineMember = { name: string; role: string; initials: string };
-type AppHeaderProps = { name: string; email: string; username: string; onlineMembers: OnlineMember[] };
+type AppHeaderProps = { name: string; email: string; username: string };
 
 const tabs = [
   { href: "/app/feed", label: "Feed", icon: Home },
@@ -22,17 +21,17 @@ function initials(name: string) {
   return name.split(" ").filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase() || "A";
 }
 
-export function AppHeader({ name, email, username, onlineMembers }: AppHeaderProps) {
+export function AppHeader({ name, email, username }: AppHeaderProps) {
   const pathname = usePathname() ?? "";
 
   return (
     <header className="dashboard-header">
       <MobileAppMenu />
-      <Link className="app-topbar-brand" href="/app/feed">AETHER<span>.</span></Link>
+      <Link className="app-topbar-brand" href="/app/feed">WealthCircle</Link>
       <label className="search-bar">
         <Search size={15} />
-        <span className="sr-only">Search AETHER</span>
-        <input type="search" placeholder="Search AETHER" />
+        <span className="sr-only">Search WealthCircle</span>
+        <input type="search" placeholder="Search WealthCircle" />
       </label>
       <nav aria-label="Main navigation" className="top-tabs">
         {tabs.map(({ href, label, icon: Icon }) => {
@@ -41,26 +40,6 @@ export function AppHeader({ name, email, username, onlineMembers }: AppHeaderPro
         })}
       </nav>
       <div className="topbar-actions">
-        <details className="circles-header-menu">
-          <summary aria-label="Open circles quick access" title="Circles">
-            <UsersRound size={19} />
-            <span aria-label="Members online" className="circles-header-presence" />
-          </summary>
-          <div className="circles-popup">
-            <div className="circles-popup-header">
-              <span className="eyebrow">Online now</span>
-              <span className="online-dot" aria-label="Members are online" />
-            </div>
-            {onlineMembers.map((member) => (
-              <Link className="circles-member" href="/app/circles" key={member.name}>
-                <span className="avatar">{member.initials}</span>
-                <span><strong>{member.name}</strong><small>{member.role}</small></span>
-                <span className="presence" aria-label="Online" />
-              </Link>
-            ))}
-            <Link className="circles-more" href="/app/circles">View all circles <span>↗</span></Link>
-          </div>
-        </details>
         <ThemeToggle />
         <Link className="dashboard-account" href={`/app/profile/${username}`} aria-label={`Open public profile for ${name}`}>
           <span className="avatar">{initials(name)}</span>

@@ -2,12 +2,15 @@ import Link from "next/link";
 import { ArrowUpRight, Bookmark, Building2, CalendarDays, CircleUserRound, Compass, CreditCard, Handshake, Megaphone, MessageCircle, Network, Sparkles, UsersRound } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AppHeader } from "@/components/app-header";
+import { CollapsibleSidebar } from "@/components/collapsible-sidebar";
+import { FriendsOnlineWidget } from "@/components/friends-online-widget";
 import { redirect } from "next/navigation";
 
 const onlineMembers = [
   { name: "Matteo Conti", role: "Architecture · Milan", initials: "MC" },
-  { name: "Sarah Kim", role: "Philanthropy · Seoul", initials: "SK" },
+  { name: "Alexander Wei", role: "Family offices · Singapore", initials: "AW" },
   { name: "Lena Moreau", role: "Art & Design · Paris", initials: "LM" },
+  { name: "Ines Rocha", role: "Real estate · Lisbon", initials: "IR" },
 ];
 
 function initials(name: string) {
@@ -30,53 +33,53 @@ export default async function AppLayout({ children }: Readonly<{ children: React
 
   return (
     <>
-      <AppHeader name={name} email={user.email ?? ""} onlineMembers={onlineMembers} username={username} />
+      <AppHeader name={name} email={user.email ?? ""} username={username} />
       <div className="dashboard-content">
         <div className="app-shell">
-          <aside className="app-sidebar">
+          <CollapsibleSidebar>
             <section className="sidebar-shortcuts">
               <p className="eyebrow">Shortcuts</p>
-              <Link className="sidebar-shortcut" href={`/app/profile/${username}`}><CircleUserRound size={17} /><span>My profile</span></Link>
-              <Link className="sidebar-shortcut" href="/app/collection"><Bookmark size={17} /><span>Saved collection</span></Link>
-              <Link className="sidebar-shortcut" href="/app/circles"><UsersRound size={17} /><span>My circles</span></Link>
-              <Link className="sidebar-shortcut" href="/app/messages"><MessageCircle size={17} /><span>Messages</span></Link>
-              <Link className="sidebar-shortcut" href="/app/explore"><Compass size={17} /><span>Discover people</span></Link>
+              <Link aria-label="My profile" className="sidebar-shortcut" href={`/app/profile/${username}`} title="My profile"><CircleUserRound size={17} /><span>My profile</span></Link>
+              <Link aria-label="Saved collection" className="sidebar-shortcut" href="/app/collection" title="Saved collection"><Bookmark size={17} /><span>Saved collection</span></Link>
+              <Link aria-label="My circles" className="sidebar-shortcut" href="/app/circles" title="My circles"><UsersRound size={17} /><span>My circles</span></Link>
+              <Link aria-label="Messages" className="sidebar-shortcut" href="/app/messages" title="Messages"><MessageCircle size={17} /><span>Messages</span></Link>
+              <Link aria-label="Discover people" className="sidebar-shortcut" href="/app/explore" title="Discover people"><Compass size={17} /><span>Discover people</span></Link>
             </section>
             <section className="revenue-panel">
               <p className="eyebrow">Revenue opportunities</p>
-              <h2>Grow with AETHER</h2>
+              <h2>Grow with WealthCircle</h2>
               <p className="revenue-intro">Reach a private, high-intent community through considered offers and experiences.</p>
-              <Link className="revenue-item" href="/app/settings">
+              <Link aria-label="Membership: plans and billing" className="revenue-item" href="/app/settings" title="Membership: plans and billing">
                 <CreditCard size={17} />
                 <span><strong>Membership</strong><small>Plans and billing</small></span>
                 <ArrowUpRight size={14} />
               </Link>
-              <a className="revenue-item" href="mailto:concierge@aether.social?subject=Advertising%20with%20AETHER">
+              <a aria-label="Brand placements: advertising opportunities" className="revenue-item" href="mailto:concierge@aether.social?subject=Advertising%20with%20WealthCircle" title="Brand placements: advertising opportunities">
                 <Megaphone size={17} />
                 <span><strong>Brand placements</strong><small>Advertising opportunities</small></span>
                 <ArrowUpRight size={14} />
               </a>
-              <a className="revenue-item" href="mailto:concierge@aether.social?subject=Sponsored%20AETHER%20Circle">
+              <a aria-label="Circle sponsorship" className="revenue-item" href="mailto:concierge@aether.social?subject=Sponsored%20WealthCircle%20Circle" title="Circle sponsorship">
                 <UsersRound size={17} />
                 <span><strong>Circle sponsorship</strong><small>Support a member community</small></span>
                 <ArrowUpRight size={14} />
               </a>
-              <a className="revenue-item" href="mailto:concierge@aether.social?subject=Private%20AETHER%20Event">
+              <a aria-label="Private events" className="revenue-item" href="mailto:concierge@aether.social?subject=Private%20WealthCircle%20Event" title="Private events">
                 <CalendarDays size={17} />
                 <span><strong>Private events</strong><small>Host salons and experiences</small></span>
                 <ArrowUpRight size={14} />
               </a>
-              <a className="revenue-item" href="mailto:concierge@aether.social?subject=Corporate%20AETHER%20Membership">
+              <a aria-label="Corporate access" className="revenue-item" href="mailto:concierge@aether.social?subject=Corporate%20WealthCircle%20Membership" title="Corporate access">
                 <Building2 size={17} />
                 <span><strong>Corporate access</strong><small>Team and office memberships</small></span>
                 <ArrowUpRight size={14} />
               </a>
-              <a className="revenue-item" href="mailto:concierge@aether.social?subject=AETHER%20Strategic%20Partnership">
+              <a aria-label="Strategic partnerships" className="revenue-item" href="mailto:concierge@aether.social?subject=WealthCircle%20Strategic%20Partnership" title="Strategic partnerships">
                 <Handshake size={17} />
                 <span><strong>Strategic partnerships</strong><small>Co-branded programs</small></span>
                 <ArrowUpRight size={14} />
               </a>
-              <a className="revenue-item" href="mailto:concierge@aether.social?subject=AETHER%20Network%20Services">
+              <a aria-label="Network services" className="revenue-item" href="mailto:concierge@aether.social?subject=WealthCircle%20Network%20Services" title="Network services">
                 <Network size={17} />
                 <span><strong>Network services</strong><small>Vetted member offerings</small></span>
                 <ArrowUpRight size={14} />
@@ -86,7 +89,7 @@ export default async function AppLayout({ children }: Readonly<{ children: React
               <span className="avatar">{initials(name)}</span>
               <span>{name}</span>
             </div>
-          </aside>
+          </CollapsibleSidebar>
 
           <div className="app-main-panel">{children}</div>
 
@@ -98,7 +101,7 @@ export default async function AppLayout({ children }: Readonly<{ children: React
             <article className="sponsor-card">
               <span className="sponsor-label">Membership</span>
               <div className="sponsor-mark">A</div>
-              <h2>AETHER SOCIETY</h2>
+              <h2>WealthCircle</h2>
               <p>Your private network is ready to expand with purpose.</p>
               <Link href="/app/settings">
                 Manage access <span>↗</span>
@@ -129,6 +132,7 @@ export default async function AppLayout({ children }: Readonly<{ children: React
         </div>
 
       </div>
+      <FriendsOnlineWidget members={onlineMembers} />
     </>
   );
 }
