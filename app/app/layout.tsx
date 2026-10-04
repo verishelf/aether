@@ -98,34 +98,34 @@ export default async function AppLayout({ children }: Readonly<{ children: React
           </aside>
         </div>
 
-        <details className="circles-quick-access">
-          <summary>
-            <span className="circles-tab">Circles</span>
-            <span className="online-pill">6 online</span>
-          </summary>
-          <div className="circles-popup">
-            <div className="circles-popup-header">
-              <span className="eyebrow">Online now</span>
-              <span className="online-dot" aria-label="6 people online" />
-            </div>
-
-            {onlineMembers.map((member) => (
-              <Link className="circles-member" href="/app/circles" key={member.name}>
-                <span className="avatar">{member.initials}</span>
-                <span>
-                  <strong>{member.name}</strong>
-                  <small>{member.role}</small>
-                </span>
-                <span className="presence" aria-label="Online" />
-              </Link>
-            ))}
-
-            <Link className="circles-more" href="/app/circles">
-              View all circles <span>↗</span>
-            </Link>
-          </div>
-        </details>
       </div>
+      <details className="circles-quick-access">
+        <summary>
+          <span className="circles-tab">Circles</span>
+          <span className="online-pill">6 online</span>
+        </summary>
+        <div className="circles-popup">
+          <div className="circles-popup-header">
+            <span className="eyebrow">Online now</span>
+            <span className="online-dot" aria-label="6 people online" />
+          </div>
+
+          {onlineMembers.map((member) => (
+            <Link className="circles-member" href="/app/circles" key={member.name}>
+              <span className="avatar">{member.initials}</span>
+              <span>
+                <strong>{member.name}</strong>
+                <small>{member.role}</small>
+              </span>
+              <span className="presence" aria-label="Online" />
+            </Link>
+          ))}
+
+          <Link className="circles-more" href="/app/circles">
+            View all circles <span>↗</span>
+          </Link>
+        </div>
+      </details>
     </>
   );
 }

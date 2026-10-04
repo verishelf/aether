@@ -225,3 +225,47 @@ body { font-size: 17px; }
 /* Keep display scale for profile pages only. */
 .profile-page .section-title { font-size: clamp(44px, 5vw, 72px); line-height: .9; margin-bottom: 28px; }
 @media (max-width: 700px) { .profile-page .section-title { font-size: 48px; } }
+
+/* Dashboard columns reserve space for navigation instead of overlaying content. */
+.app-shell { align-items: stretch; display: grid; grid-template-columns: minmax(190px, 235px) minmax(0, 1fr) minmax(220px, 280px); min-height: calc(100vh - 76px); width: 100%; }
+.app-sidebar { align-self: start; height: calc(100vh - 76px); min-width: 0; padding: 42px clamp(14px, 2vw, 30px); position: sticky; top: 76px; width: auto; }
+.app-main-panel { min-width: 0; padding: 0 clamp(14px, 2.5vw, 38px) 42px; width: 100%; }
+.feed { margin-left: 0; margin-right: auto; max-width: 995px; padding: 0 0 42px; width: 100%; }
+.app-rightbar { align-self: start; margin-left: 0; max-width: none; min-width: 0; padding: 42px clamp(14px, 2vw, 30px); position: sticky; top: 76px; width: auto; }
+@media (max-width: 1100px) {
+  .app-shell { grid-template-columns: minmax(190px, 235px) minmax(0, 1fr); }
+  .app-rightbar { display: none; }
+}
+@media (max-width: 700px) {
+  .app-shell { grid-template-columns: 58px minmax(0, 1fr); min-height: calc(100vh - 66px); }
+  .app-sidebar { border-bottom: 0; border-right: 1px solid var(--soft-line); height: calc(100vh - 66px); padding: 18px 8px; top: 66px; width: 58px; }
+  .app-sidebar nav { align-items: center; display: flex; gap: 12px; margin-top: 24px; }
+  .app-sidebar nav a { font-size: 0; gap: 0; justify-content: center; min-height: 36px; padding: 8px 0; width: 38px; }
+  .app-sidebar nav a svg { flex: 0 0 18px; }
+  .sidebar-profile { display: none; }
+  .app-main-panel { padding: 0 12px 28px; }
+  .feed { padding: 0 0 28px; }
+  .feed-heading { padding: 48px 0 30px; }
+  .feed-heading h1 { font-size: clamp(30px, 8vw, 42px); }
+  .app-topbar { gap: 10px; }
+}
+
+/* Keep dashboard columns adjacent; narrow screens can scroll horizontally. */
+.dashboard-content { overflow-x: auto; overscroll-behavior-x: contain; }
+.app-shell { min-width: 970px; }
+.app-sidebar, .app-rightbar { top: 0; }
+.app-rightbar { display: block; }
+@media (max-width: 1100px) {
+  .app-shell { grid-template-columns: minmax(190px, 235px) minmax(500px, 1fr) minmax(220px, 260px); min-width: 950px; }
+  .app-rightbar { display: block; }
+}
+@media (max-width: 700px) {
+  .app-shell { grid-template-columns: 58px minmax(520px, 1fr) 230px; min-height: calc(100vh - 66px); min-width: 808px; }
+  .app-sidebar, .app-rightbar { top: 0; }
+  .messages-shell { grid-template-columns: minmax(190px, .7fr) minmax(340px, 1.3fr); min-width: 570px; }
+  .settings-section { display: grid; grid-template-columns: minmax(145px, .75fr) minmax(230px, 1.25fr); }
+  .settings-fields, .settings-options { min-width: 0; }
+  .asset-form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .category-grid { grid-template-columns: repeat(3, minmax(150px, 1fr)); }
+  .featured-grid { grid-template-columns: repeat(2, minmax(220px, 1fr)); }
+}
