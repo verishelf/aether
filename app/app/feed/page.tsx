@@ -3,6 +3,7 @@ import { Sparkles } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { FeedComposer } from "@/components/feed-composer";
 import { PostActions } from "@/components/post-actions";
+import { AvatarCircle } from "@/components/avatar-circle";
 
 export default async function FeedPage() {
   const supabase = await createClient();
@@ -10,11 +11,19 @@ export default async function FeedPage() {
   const name = String(user?.user_metadata?.full_name || user?.email?.split("@")[0] || "Member");
   const initials = name.split(" ").filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase() || "A";
   const { data: posts } = await supabase.from("posts").select("id, user_id, body, created_at").order("created_at", { ascending: false }).limit(30);
-  const userIds = [...new Set((posts ?? []).map((post) => post.user_id))];
+  const userIds = [...new Set([...(posts ?? []).map((post) => post.user_id), ...(user ? [user.id] : [])])];
   const { data: profiles } = userIds.length
-    ? await supabase.from("profiles").select("id, display_name, username").in("id", userIds)
+    ? await supabase.from("profiles").select("id, display_name, username, avatar_url").in("id", userIds)
     : { data: null };
-  const profilesById = new Map((profiles ?? []).map((profile) => [profile.id, profile]));
+  const profilesWithAvatars = await Promise.all((profiles ?? []).map(async (profile) => {
+    let avatarUrl = profile.avatar_url;
+    if (avatarUrl && !/^https?:\/\//i.test(avatarUrl)) {
+      const { data } = await supabase.storage.from("asset-images").createSignedUrl(avatarUrl, 3600);
+      avatarUrl = data?.signedUrl ?? null;
+    }
+    return [profile.id, { ...profile, avatarUrl }] as const;
+  }));
+  const profilesById = new Map(profilesWithAvatars);
 
   return (
     <section className="feed">
@@ -23,7 +32,7 @@ export default async function FeedPage() {
         <p>{new Intl.DateTimeFormat("en-US", { dateStyle: "full" }).format(new Date())}</p>
       </div>
 
-      <FeedComposer initials={initials} />
+      <FeedComposer avatarUrl={profilesById.get(user?.id ?? "")?.avatarUrl} initials={initials} />
 
       {posts?.length ? (
         posts.map((post) => {
@@ -33,7 +42,7 @@ export default async function FeedPage() {
           return (
             <article className="post" key={post.id}>
               <div className="post-top">
-                <span className="avatar">{postName.slice(0, 2).toUpperCase()}</span>
+                <AvatarCircle avatarUrl={profile?.avatarUrl} initials={postName.slice(0, 2).toUpperCase()} label={`${postName}'s profile photo`} />
                 <div>
                   <strong>{postName}</strong>
                   <p>@{profile?.username || "member"} · {new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(new Date(post.created_at))}</p>

@@ -693,6 +693,7 @@ body { font-size: 17px; }
 .profile-avatar-upload:hover:not(:disabled) { transform: scale(1.06); }
 .profile-avatar-upload:disabled { cursor: wait; opacity: .72; }
 .profile-avatar-error { background: var(--background); border: 1px solid var(--soft-line); border-radius: 6px; bottom: -42px; color: #9b3b32; font-size: 10px; left: 0; margin: 0; padding: 7px 9px; position: absolute; width: max-content; z-index: 4; }
+.avatar.avatar-photo { background-position: center; background-size: cover; color: transparent; overflow: hidden; }
 :root[data-theme="dark"] .profile-avatar-upload { background: #eceae4; border-color: #0b0c0b; color: #141514; }
 @media (max-width: 700px) { .profile-avatar-wrap { height: 190px; width: 190px; } }
 

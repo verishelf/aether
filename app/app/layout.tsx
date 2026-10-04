@@ -4,13 +4,14 @@ import { createClient } from "@/lib/supabase/server";
 import { AppHeader } from "@/components/app-header";
 import { CollapsibleSidebar } from "@/components/collapsible-sidebar";
 import { FriendsOnlineWidget } from "@/components/friends-online-widget";
+import { AvatarCircle } from "@/components/avatar-circle";
 import { redirect } from "next/navigation";
 
 const onlineMembers = [
-  { name: "Matteo Conti", role: "Architecture · Milan", initials: "MC" },
-  { name: "Alexander Wei", role: "Family offices · Singapore", initials: "AW" },
-  { name: "Lena Moreau", role: "Art & Design · Paris", initials: "LM" },
-  { name: "Ines Rocha", role: "Real estate · Lisbon", initials: "IR" },
+  { username: "matteo-conti", name: "Matteo Conti", role: "Architecture · Milan", initials: "MC" },
+  { username: "alexander-wei", name: "Alexander Wei", role: "Family offices · Singapore", initials: "AW" },
+  { username: "lena-moreau", name: "Lena Moreau", role: "Art & Design · Paris", initials: "LM" },
+  { username: "ines-rocha", name: "Ines Rocha", role: "Real estate · Lisbon", initials: "IR" },
 ];
 
 function initials(name: string) {
@@ -23,17 +24,27 @@ export default async function AppLayout({ children }: Readonly<{ children: React
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
   const name = String(user.user_metadata?.full_name || user.email?.split("@")[0] || "Member");
-  let { data: profile } = await supabase.from("profiles").select("username").eq("id", user.id).maybeSingle();
+  let { data: profile } = await supabase.from("profiles").select("username, avatar_url").eq("id", user.id).maybeSingle();
   if (!profile) {
     const username = (user.email?.split("@")[0] || "member").toLowerCase().replace(/[^a-z0-9_]/g, "_").slice(0, 30);
-    const { data: created } = await supabase.from("profiles").insert({ id: user.id, display_name: name, username }).select("username").maybeSingle();
+    const { data: created } = await supabase.from("profiles").insert({ id: user.id, display_name: name, username }).select("username, avatar_url").maybeSingle();
     profile = created;
   }
   const username = profile?.username ?? user.email?.split("@")[0] ?? "member";
+  async function signedAvatarUrl(path: string | null | undefined) {
+    if (!path) return null;
+    if (/^https?:\/\//i.test(path)) return path;
+    const { data } = await supabase.storage.from("asset-images").createSignedUrl(path, 3600);
+    return data?.signedUrl ?? null;
+  }
+  const avatarUrl = await signedAvatarUrl(profile?.avatar_url);
+  const { data: onlineProfiles } = await supabase.from("profiles").select("username, avatar_url").in("username", onlineMembers.map((member) => member.username));
+  const onlineAvatarUrls = new Map(await Promise.all((onlineProfiles ?? []).map(async (onlineProfile) => [onlineProfile.username, await signedAvatarUrl(onlineProfile.avatar_url)] as const)));
+  const friendsWithAvatars = onlineMembers.map((member) => ({ ...member, avatarUrl: onlineAvatarUrls.get(member.username) ?? null }));
 
   return (
     <>
-      <AppHeader name={name} username={username} />
+      <AppHeader avatarUrl={avatarUrl} name={name} username={username} />
       <div className="dashboard-content">
         <div className="app-shell">
           <CollapsibleSidebar>
@@ -88,7 +99,7 @@ export default async function AppLayout({ children }: Readonly<{ children: React
               </Link>
             </section>
             <div className="sidebar-profile">
-              <span className="avatar">{initials(name)}</span>
+              <AvatarCircle avatarUrl={avatarUrl} initials={initials(name)} label={`${name}'s profile photo`} />
               <span>{name}</span>
             </div>
           </CollapsibleSidebar>
@@ -134,7 +145,7 @@ export default async function AppLayout({ children }: Readonly<{ children: React
         </div>
 
       </div>
-      <FriendsOnlineWidget members={onlineMembers} />
+      <FriendsOnlineWidget members={friendsWithAvatars} />
     </>
   );
 }

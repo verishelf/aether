@@ -1,8 +1,9 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { AvatarCircle } from "@/components/avatar-circle";
 
-export function FeedComposer({ initials }: { initials: string }) {
+export function FeedComposer({ initials, avatarUrl }: { initials: string; avatarUrl?: string | null }) {
   const [copy, setCopy] = useState("");
   const [error, setError] = useState("");
   const [posting, setPosting] = useState(false);
@@ -35,5 +36,5 @@ export function FeedComposer({ initials }: { initials: string }) {
     }
   }
 
-  return <form className="composer" onSubmit={submit}><span className="avatar">{initials}</span><textarea value={copy} onChange={(event) => setCopy(event.target.value)} placeholder="Share something considered..." aria-label="Write a post" rows={2} maxLength={1000} /><button type="submit" disabled={posting || !copy.trim()}>{posting ? "Posting..." : "Post"}</button>{error && <p className="auth-error" role="alert">{error}</p>}</form>;
+  return <form className="composer" onSubmit={submit}><AvatarCircle avatarUrl={avatarUrl} initials={initials} label="Your profile photo" /><textarea value={copy} onChange={(event) => setCopy(event.target.value)} placeholder="Share something considered..." aria-label="Write a post" rows={2} maxLength={1000} /><button type="submit" disabled={posting || !copy.trim()}>{posting ? "Posting..." : "Post"}</button>{error && <p className="auth-error" role="alert">{error}</p>}</form>;
 }

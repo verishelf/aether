@@ -5,8 +5,9 @@ import { usePathname } from "next/navigation";
 import { Boxes, Compass, Home, Layers3, MessageCircle, Search, Settings } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { MobileAppMenu } from "@/components/mobile-app-menu";
+import { AvatarCircle } from "@/components/avatar-circle";
 
-type AppHeaderProps = { name: string; username: string };
+type AppHeaderProps = { name: string; username: string; avatarUrl?: string | null };
 
 const tabs = [
   { href: "/app/feed", label: "Feed", icon: Home },
@@ -21,7 +22,7 @@ function initials(name: string) {
   return name.split(" ").filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase() || "A";
 }
 
-export function AppHeader({ name, username }: AppHeaderProps) {
+export function AppHeader({ name, username, avatarUrl }: AppHeaderProps) {
   const pathname = usePathname() ?? "";
 
   return (
@@ -42,7 +43,7 @@ export function AppHeader({ name, username }: AppHeaderProps) {
       <div className="topbar-actions">
         <ThemeToggle />
         <Link className="dashboard-account" href={`/app/profile/${username}`} aria-label={`Open public profile for ${name}`}>
-          <span className="avatar">{initials(name)}</span>
+          <AvatarCircle avatarUrl={avatarUrl} initials={initials(name)} label={`${name}'s profile photo`} />
         </Link>
       </div>
     </header>

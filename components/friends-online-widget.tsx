@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { UsersRound } from "lucide-react";
+import { AvatarCircle } from "@/components/avatar-circle";
 
-type OnlineMember = { name: string; role: string; initials: string };
+type OnlineMember = { name: string; role: string; initials: string; avatarUrl?: string | null };
 
 export function FriendsOnlineWidget({ members }: { members: OnlineMember[] }) {
   return (
@@ -18,7 +19,7 @@ export function FriendsOnlineWidget({ members }: { members: OnlineMember[] }) {
         </div>
         {members.map((member) => (
           <Link className="circles-member" href="/app/circles" key={member.name}>
-            <span className="avatar">{member.initials}</span>
+            <AvatarCircle avatarUrl={member.avatarUrl} initials={member.initials} label={`${member.name}'s profile photo`} />
             <span><strong>{member.name}</strong><small>{member.role}</small></span>
             <span className="presence" aria-label="Online" />
           </Link>

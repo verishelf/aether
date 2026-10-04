@@ -14,7 +14,7 @@ const members = [
 ];
 const circleFilters = ["All circles", "Art & Design", "Family Offices", "Private Aviation", "Philanthropy", "Real Estate"];
 
-export function CircleExplorer() {
+export function CircleExplorer({ avatarUrls }: { avatarUrls: Record<string, string> }) {
   const [circle, setCircle] = useState("All circles");
   const [query, setQuery] = useState("");
   const [onlineOnly, setOnlineOnly] = useState(false);
@@ -42,14 +42,14 @@ export function CircleExplorer() {
           <header className="circle-section-heading"><div><p className="eyebrow">MEMBER CONSTELLATION</p><h2>{circle === "All circles" ? "The network" : circle}</h2></div><span>{visible.length} of {members.length} members</span></header>
           {visible.length ? <div className="circle-network-map">
             <span className="circle-map-line line-one" /><span className="circle-map-line line-two" /><span className="circle-map-line line-three" /><span className="circle-map-line line-four" />
-            {visible.map((member) => <button aria-label={`${member.name}, ${member.circle}, ${member.city}${member.online ? ", online" : ", away"}`} aria-pressed={activeMember?.username === member.username} className={`network-node ${member.size} ${member.position}${activeMember?.username === member.username ? " selected" : ""}`} key={member.username} onClick={() => setSelected(member.username)} title={`${member.name} · ${member.circle}`} type="button"><span aria-hidden="true" className="node-photo" style={{ backgroundImage: `url(${member.photo})` }} /><span className="node-initials">{member.initials}</span><span aria-hidden="true" className={`node-presence${member.online ? " online" : ""}`} /></button>)}
+            {visible.map((member) => <button aria-label={`${member.name}, ${member.circle}, ${member.city}${member.online ? ", online" : ", away"}`} aria-pressed={activeMember?.username === member.username} className={`network-node ${member.size} ${member.position}${activeMember?.username === member.username ? " selected" : ""}`} key={member.username} onClick={() => setSelected(member.username)} title={`${member.name} · ${member.circle}`} type="button"><span aria-hidden="true" className="node-photo" style={{ backgroundImage: `url(${avatarUrls[member.username] || member.photo})` }} /><span className="node-initials">{member.initials}</span><span aria-hidden="true" className={`node-presence${member.online ? " online" : ""}`} /></button>)}
             <span className="circle-map-caption"><UsersRound size={13} /> Select a member to preview their profile</span>
           </div> : <div className="circle-empty-state"><Search size={18} /><strong>No members match those filters</strong><button onClick={() => { setQuery(""); setCircle("All circles"); setOnlineOnly(false); }} type="button">Clear filters</button></div>}
         </section>
         <aside aria-live="polite" className="circle-member-preview">
           {activeMember ? <>
             <div className="circle-preview-topline"><span className="eyebrow">MEMBER PROFILE</span><span className={`circle-presence-label${activeMember.online ? " online" : ""}`}><span />{activeMember.online ? "Online" : "Away"}</span></div>
-            <div className="circle-preview-portrait" style={{ backgroundImage: `url(${activeMember.photo})` }}><span>{activeMember.initials}</span></div>
+              <div className="circle-preview-portrait" style={{ backgroundImage: `url(${avatarUrls[activeMember.username] || activeMember.photo})` }}><span>{activeMember.initials}</span></div>
             <h2>{activeMember.name}</h2><p className="circle-member-role">{activeMember.field}</p><p className="circle-member-location"><MapPin size={14} />{activeMember.city}</p>
             <div className="circle-member-interest"><span className="eyebrow">CIRCLE</span><strong>{activeMember.circle}</strong></div>
             <Link className="circle-profile-link" href={`/app/profile/${activeMember.username}`}>Open profile <ArrowUpRight size={15} /></Link>
