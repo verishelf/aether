@@ -345,6 +345,62 @@ body { font-size: 17px; }
   .circles-quick-access { bottom: 14px; right: 14px; }
 }
 
+@media (min-width: 701px) {
+  .app-main-panel { padding-left: clamp(12px, 1.25vw, 20px); padding-right: clamp(12px, 1.25vw, 20px); }
+  .feed { max-width: none; }
+  .app-main-panel > .utility-page,
+  .app-main-panel > .settings-page,
+  .app-main-panel > .collection-page,
+  .app-main-panel > .explore-page,
+  .app-main-panel > .profile-page { max-width: none; padding-left: clamp(12px, 1.5vw, 22px); padding-right: clamp(12px, 1.5vw, 22px); width: 100%; }
+  .app-main-panel .utility-page-header { max-width: none; }
+  .app-main-panel .account-settings,
+  .app-main-panel .asset-manager { max-width: none; width: 100%; }
+}
+
+.dashboard-header { gap: clamp(12px, 1.5vw, 22px); justify-content: initial; }
+.dashboard-header .search-bar { flex: 0 1 260px; margin: 0; max-width: 260px; width: 24vw; }
+.top-tabs { align-items: center; display: flex; flex: 1 1 auto; gap: clamp(10px, 1.5vw, 22px); min-width: 0; }
+.top-tabs a { border-bottom: 1px solid transparent; color: #777; font-size: 10px; padding: 9px 0; white-space: nowrap; }
+.top-tabs a:hover, .top-tabs a.active { border-color: currentColor; color: var(--foreground); }
+.topbar-actions { flex: 0 0 auto; gap: 12px; }
+.circles-header-menu { position: relative; }
+.circles-header-menu summary { align-items: center; border: 1px solid var(--soft-line); border-radius: 50%; color: var(--foreground); cursor: pointer; display: flex; height: 36px; justify-content: center; list-style: none; position: relative; width: 36px; }
+.circles-header-menu summary::-webkit-details-marker { display: none; }
+.circles-header-menu summary:hover, .circles-header-menu[open] summary { background: rgba(0,0,0,.05); }
+.circles-header-presence { background: #8ecc9d; border: 2px solid var(--background); border-radius: 50%; bottom: 1px; height: 9px; position: absolute; right: 1px; width: 9px; }
+.circles-header-menu .circles-popup { bottom: auto; right: 0; top: calc(100% + 12px); }
+.circles-header-menu[open] .circles-popup { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.revenue-panel { margin: 34px 0 24px; width: 100%; }
+.revenue-panel > .eyebrow { color: var(--muted); }
+.revenue-panel h2 { font-family: var(--font-cormorant), serif; font-size: 24px; font-weight: 500; line-height: 1; margin: 24px 0 10px; }
+.revenue-intro { color: var(--muted); font-size: 10px; line-height: 1.55; margin: 0 0 22px; }
+.revenue-item { align-items: center; border-top: 1px solid var(--soft-line); color: inherit; display: grid; gap: 9px; grid-template-columns: 18px minmax(0,1fr) 14px; padding: 14px 0; }
+.revenue-item > svg { color: var(--muted); stroke-width: 1.5; }
+.revenue-item > span { min-width: 0; }
+.revenue-item strong, .revenue-item small { display: block; }
+.revenue-item strong { font-size: 10px; font-weight: 500; }
+.revenue-item small { color: var(--muted); font-size: 9px; line-height: 1.4; margin-top: 4px; }
+.revenue-item:hover strong { text-decoration: underline; text-underline-offset: 3px; }
+:root[data-theme="dark"] .circles-header-menu summary:hover, :root[data-theme="dark"] .circles-header-menu[open] summary { background: rgba(255,255,255,.08); }
+@media (max-width: 1100px) and (min-width: 701px) {
+  .dashboard-header { gap: 12px; padding-left: 24px; padding-right: 24px; }
+  .dashboard-header .search-bar { flex-basis: 190px; width: 190px; }
+  .top-tabs { gap: 12px; }
+  .top-tabs a { font-size: 9px; }
+  .dashboard-account-copy { display: none; }
+}
+@media (max-width: 700px) {
+  .dashboard-header { gap: 7px; padding: 0 10px; }
+  .dashboard-header .app-topbar-brand { display: none; }
+  .dashboard-header .search-bar { flex: 1 1 auto; margin: 0; max-width: none; min-width: 0; width: auto; }
+  .top-tabs { display: none; }
+  .topbar-actions { gap: 6px; }
+  .circles-header-menu summary { height: 34px; width: 34px; }
+  .circles-header-menu .circles-popup { min-width: 260px; right: -38px; }
+  .revenue-panel { display: none; }
+}
+
 .mobile-app-menu-toggle { align-items: center; background: transparent; border: 1px solid var(--soft-line); border-radius: 6px; color: inherit; display: none; flex: 0 0 36px; height: 36px; justify-content: center; padding: 0; }
 .mobile-app-menu-layer { inset: 66px 0 0; position: fixed; z-index: 30; }
 .mobile-app-menu-backdrop { animation: mobile-menu-fade .18s ease both; background: rgba(0,0,0,.38); border: 0; inset: 0; position: absolute; width: 100%; }

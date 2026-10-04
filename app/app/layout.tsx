@@ -1,17 +1,8 @@
 import Link from "next/link";
-import { Boxes, Compass, Home, Layers3, MessageCircle, Settings, Sparkles } from "lucide-react";
+import { ArrowUpRight, CreditCard, Handshake, Megaphone, Sparkles } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AppHeader } from "@/components/app-header";
 import { redirect } from "next/navigation";
-
-const navItems = [
-  { href: "/app/feed", label: "Feed", icon: Home },
-  { href: "/app/explore", label: "Explore", icon: Compass },
-  { href: "/app/circles", label: "Circles", icon: Layers3 },
-  { href: "/app/collection", label: "Collection", icon: Boxes },
-  { href: "/app/messages", label: "Messages", icon: MessageCircle },
-  { href: "/app/settings", label: "Settings", icon: Settings },
-];
 
 const onlineMembers = [
   { name: "Matteo Conti", role: "Architecture · Milan", initials: "MC" },
@@ -39,19 +30,30 @@ export default async function AppLayout({ children }: Readonly<{ children: React
 
   return (
     <>
-      <AppHeader name={name} email={user.email ?? ""} username={username} />
+      <AppHeader name={name} email={user.email ?? ""} onlineMembers={onlineMembers} username={username} />
       <div className="dashboard-content">
         <div className="app-shell">
           <aside className="app-sidebar">
-            <Link className="wordmark" href="/">AETHER<span>.</span></Link>
-            <nav>
-              {navItems.map(({ href, label, icon: Icon }) => (
-                <Link key={href} href={href}>
-                  <Icon size={17} />
-                  {label}
-                </Link>
-              ))}
-            </nav>
+            <section className="revenue-panel">
+              <p className="eyebrow">Revenue</p>
+              <h2>Grow with AETHER</h2>
+              <p className="revenue-intro">Thoughtful offers for brands aligned with our private community.</p>
+              <Link className="revenue-item" href="/app/settings">
+                <CreditCard size={17} />
+                <span><strong>Membership</strong><small>Plans and billing</small></span>
+                <ArrowUpRight size={14} />
+              </Link>
+              <a className="revenue-item" href="mailto:concierge@aether.social?subject=Advertising%20with%20AETHER">
+                <Megaphone size={17} />
+                <span><strong>Advertising</strong><small>Curated placements</small></span>
+                <ArrowUpRight size={14} />
+              </a>
+              <a className="revenue-item" href="mailto:concierge@aether.social?subject=AETHER%20Partnership">
+                <Handshake size={17} />
+                <span><strong>Partnerships</strong><small>Build something together</small></span>
+                <ArrowUpRight size={14} />
+              </a>
+            </section>
             <div className="sidebar-profile">
               <span className="avatar">{initials(name)}</span>
               <span>{name}</span>
@@ -99,33 +101,6 @@ export default async function AppLayout({ children }: Readonly<{ children: React
         </div>
 
       </div>
-      <details className="circles-quick-access">
-        <summary>
-          <span className="circles-tab">Circles</span>
-          <span className="online-pill">6 online</span>
-        </summary>
-        <div className="circles-popup">
-          <div className="circles-popup-header">
-            <span className="eyebrow">Online now</span>
-            <span className="online-dot" aria-label="6 people online" />
-          </div>
-
-          {onlineMembers.map((member) => (
-            <Link className="circles-member" href="/app/circles" key={member.name}>
-              <span className="avatar">{member.initials}</span>
-              <span>
-                <strong>{member.name}</strong>
-                <small>{member.role}</small>
-              </span>
-              <span className="presence" aria-label="Online" />
-            </Link>
-          ))}
-
-          <Link className="circles-more" href="/app/circles">
-            View all circles <span>↗</span>
-          </Link>
-        </div>
-      </details>
     </>
   );
 }
