@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { Check, LogOut, Trash2 } from "lucide-react";
 
-type AccountSettingsProps = { email: string; displayName: string; username: string; profileVisible: boolean; searchable: boolean; membership: string };
+type AccountSettingsProps = { email: string; displayName: string; username: string; profileVisible: boolean; searchable: boolean; membership: string; children?: React.ReactNode };
 
-export function AccountSettings({ email, displayName: initialDisplayName, username: initialUsername, profileVisible: initialProfileVisible, searchable: initialSearchable, membership }: AccountSettingsProps) {
+export function AccountSettings({ email, displayName: initialDisplayName, username: initialUsername, profileVisible: initialProfileVisible, searchable: initialSearchable, membership, children }: AccountSettingsProps) {
   const [displayName, setDisplayName] = useState(initialDisplayName);
   const [username, setUsername] = useState(initialUsername);
   const [profileVisible, setProfileVisible] = useState(initialProfileVisible);
@@ -44,5 +44,46 @@ export function AccountSettings({ email, displayName: initialDisplayName, userna
     window.location.assign("/");
   }
 
-  return <div className="account-settings"><section className="settings-section"><div><p className="eyebrow">Account</p><h2>{email}</h2><p>Member account · {membership}</p></div><button className="settings-action" type="button" onClick={signOut}><LogOut size={15} /> Sign out</button></section><form className="settings-section settings-profile-form" onSubmit={saveProfile}><div><p className="eyebrow">Profile</p><h2>Your public identity.</h2><p>Choose how your name appears across AETHER.</p></div><div className="settings-fields"><label>Display name<input value={displayName} onChange={(event) => setDisplayName(event.target.value)} required /></label><label>Username<input value={username} onChange={(event) => setUsername(event.target.value)} required /></label><button className="settings-action" type="submit">Save profile</button></div></form><section className="settings-section"><div><p className="eyebrow">Privacy</p><h2>Your presence, on your terms.</h2><p>Control how your profile appears inside AETHER.</p></div><div className="settings-options"><label><span><strong>Profile visibility</strong><small>Allow members to view your profile.</small></span><input type="checkbox" checked={profileVisible} onChange={(event) => savePreference("profile_visible", event.target.checked)} /></label><label><span><strong>Searchable profile</strong><small>Allow your profile to appear in member search.</small></span><input type="checkbox" checked={searchable} onChange={(event) => savePreference("searchable", event.target.checked)} /></label></div></section>{notice && <p className="settings-notice"><Check size={14} /> {notice}</p>}{error && <p className="auth-error" role="alert">{error}</p>}<section className="settings-section settings-danger"><div><p className="eyebrow">Close account</p><h2>Leave AETHER.</h2><p>This permanently removes your account, assets, and membership record.</p></div><button className="settings-danger-action" type="button" onClick={deleteAccount} disabled={deleting}><Trash2 size={15} /> {deleting ? "Removing..." : "Delete account"}</button></section></div>;
+  return (
+    <div className="account-settings">
+      <section className="settings-section">
+        <div>
+          <h2>Account</h2>
+          <p>{email} · {membership}</p>
+        </div>
+        <button className="settings-action" type="button" onClick={signOut}><LogOut size={15} /> Sign out</button>
+      </section>
+      <form className="settings-section settings-profile-form" onSubmit={saveProfile}>
+        <div>
+          <h2>Profile</h2>
+          <p>How your name appears across AETHER.</p>
+        </div>
+        <div className="settings-fields">
+          <label>Display name<input value={displayName} onChange={(event) => setDisplayName(event.target.value)} required /></label>
+          <label>Username<input value={username} onChange={(event) => setUsername(event.target.value)} required /></label>
+          <button className="settings-action" type="submit">Save profile</button>
+        </div>
+      </form>
+      <section className="settings-section">
+        <div>
+          <h2>Privacy</h2>
+          <p>Control how your profile appears inside AETHER.</p>
+        </div>
+        <div className="settings-options">
+          <label><span><strong>Profile visibility</strong><small>Allow members to view your profile.</small></span><input type="checkbox" checked={profileVisible} onChange={(event) => savePreference("profile_visible", event.target.checked)} /></label>
+          <label><span><strong>Searchable profile</strong><small>Allow your profile to appear in member search.</small></span><input type="checkbox" checked={searchable} onChange={(event) => savePreference("searchable", event.target.checked)} /></label>
+        </div>
+      </section>
+      {children}
+      {notice && <p className="settings-notice"><Check size={14} /> {notice}</p>}
+      {error && <p className="auth-error" role="alert">{error}</p>}
+      <section className="settings-section settings-danger">
+        <div>
+          <h2>Delete account</h2>
+          <p>Permanently removes your account, assets, and membership record.</p>
+        </div>
+        <button className="settings-danger-action" type="button" onClick={deleteAccount} disabled={deleting}><Trash2 size={15} /> {deleting ? "Removing..." : "Delete account"}</button>
+      </section>
+    </div>
+  );
 }

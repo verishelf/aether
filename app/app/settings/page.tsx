@@ -7,5 +7,15 @@ export default async function SettingsPage() {
 	const { data: { user } } = await supabase.auth.getUser();
 	const { data: profile } = user ? await supabase.from("profiles").select("display_name, username, profile_visible, searchable").eq("id", user.id).maybeSingle() : { data: null };
 	const { data: subscription } = user ? await supabase.from("subscriptions").select("status").eq("user_id", user.id).maybeSingle() : { data: null };
-	return <main className="placeholder-page settings-page"><p className="eyebrow">Account</p><h1 className="section-title">Your<br /><em>settings.</em></h1><p>Manage your account, privacy, and membership.</p><UpgradeMembership /><AccountSettings email={user?.email ?? ""} displayName={profile?.display_name ?? user?.user_metadata?.full_name ?? ""} username={profile?.username ?? user?.email?.split("@")[0] ?? "member"} profileVisible={profile?.profile_visible ?? true} searchable={profile?.searchable ?? true} membership={subscription?.status === "active" ? "Active membership" : "Membership not active"} /></main>;
+	return (
+		<main className="utility-page settings-page">
+			<header className="utility-page-header">
+				<h1>Settings</h1>
+				<p>Manage your account, privacy, and membership.</p>
+			</header>
+			<AccountSettings email={user?.email ?? ""} displayName={profile?.display_name ?? user?.user_metadata?.full_name ?? ""} username={profile?.username ?? user?.email?.split("@")[0] ?? "member"} profileVisible={profile?.profile_visible ?? true} searchable={profile?.searchable ?? true} membership={subscription?.status === "active" ? "Active membership" : "Membership not active"}>
+				<UpgradeMembership />
+			</AccountSettings>
+		</main>
+	);
 }

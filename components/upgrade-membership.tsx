@@ -27,5 +27,23 @@ export function UpgradeMembership() {
     }
   }
 
-  return <div className="membership-panel"><p className="eyebrow">Membership</p><h2>Choose your<br /><em>cadence.</em></h2><p className="membership-panel-copy">Upgrade your account to unlock every circle, conversation, and introduction.</p><div className="membership-plans"><button type="button" onClick={() => startCheckout("monthly")} disabled={loading !== null}><span><strong>Monthly</strong><small>$297 / month</small></span>{loading === "monthly" ? <LoaderCircle className="spin" size={17} /> : <ArrowUpRight size={17} />}</button><button type="button" onClick={() => startCheckout("yearly")} disabled={loading !== null}><span><strong>Yearly <i>Save 17%</i></strong><small>$247 / month, billed annually</small></span>{loading === "yearly" ? <LoaderCircle className="spin" size={17} /> : <ArrowUpRight size={17} />}</button></div>{error ? <p className="auth-error" role="alert">{error}</p> : <p className="membership-note"><Check size={14} /> Secure checkout powered by Stripe</p>}</div>;
+  return (
+    <section className="settings-section membership-panel">
+      <div>
+        <h2>Membership</h2>
+        <p>Upgrade to unlock every circle, conversation, and introduction.</p>
+      </div>
+      <div className="membership-plans">
+        <button type="button" onClick={() => startCheckout("monthly")} disabled={loading !== null}>
+          <span><strong>Monthly</strong><small>$297 / month</small></span>
+          {loading === "monthly" ? <LoaderCircle className="spin" size={17} /> : <ArrowUpRight size={17} />}
+        </button>
+        <button type="button" onClick={() => startCheckout("yearly")} disabled={loading !== null}>
+          <span><strong>Yearly <i>Save 17%</i></strong><small>$247 / month, billed annually</small></span>
+          {loading === "yearly" ? <LoaderCircle className="spin" size={17} /> : <ArrowUpRight size={17} />}
+        </button>
+        {error ? <p className="auth-error" role="alert">{error}</p> : <p className="membership-note"><Check size={14} /> Secure checkout powered by Stripe</p>}
+      </div>
+    </section>
+  );
 }
