@@ -6,7 +6,7 @@ import { Boxes, Compass, Home, Layers3, MessageCircle, Search, Settings } from "
 import { ThemeToggle } from "@/components/theme-toggle";
 import { MobileAppMenu } from "@/components/mobile-app-menu";
 
-type AppHeaderProps = { name: string; email: string; username: string };
+type AppHeaderProps = { name: string; username: string };
 
 const tabs = [
   { href: "/app/feed", label: "Feed", icon: Home },
@@ -21,7 +21,7 @@ function initials(name: string) {
   return name.split(" ").filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase() || "A";
 }
 
-export function AppHeader({ name, email, username }: AppHeaderProps) {
+export function AppHeader({ name, username }: AppHeaderProps) {
   const pathname = usePathname() ?? "";
 
   return (
@@ -43,7 +43,6 @@ export function AppHeader({ name, email, username }: AppHeaderProps) {
         <ThemeToggle />
         <Link className="dashboard-account" href={`/app/profile/${username}`} aria-label={`Open public profile for ${name}`}>
           <span className="avatar">{initials(name)}</span>
-          <span className="dashboard-account-copy"><strong>{name}</strong><small>{email}</small></span>
         </Link>
       </div>
     </header>

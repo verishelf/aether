@@ -33,7 +33,7 @@ export default async function AppLayout({ children }: Readonly<{ children: React
 
   return (
     <>
-      <AppHeader name={name} email={user.email ?? ""} username={username} />
+      <AppHeader name={name} username={username} />
       <div className="dashboard-content">
         <div className="app-shell">
           <CollapsibleSidebar>
@@ -46,44 +46,46 @@ export default async function AppLayout({ children }: Readonly<{ children: React
               <Link aria-label="Discover people" className="sidebar-shortcut" href="/app/explore" title="Discover people"><Compass size={17} /><span>Discover people</span></Link>
             </section>
             <section className="revenue-panel">
-              <p className="eyebrow">Revenue opportunities</p>
-              <h2>Grow with WealthCircle</h2>
+              <Link aria-label="Grow with WealthCircle: view opportunities" className="revenue-heading-link" href="/app/grow">
+                <p className="eyebrow">Revenue opportunities</p>
+                <h2>Grow with WealthCircle</h2>
+              </Link>
               <p className="revenue-intro">Reach a private, high-intent community through considered offers and experiences.</p>
               <Link aria-label="Membership: plans and billing" className="revenue-item" href="/app/settings" title="Membership: plans and billing">
                 <CreditCard size={17} />
                 <span><strong>Membership</strong><small>Plans and billing</small></span>
                 <ArrowUpRight size={14} />
               </Link>
-              <a aria-label="Brand placements: advertising opportunities" className="revenue-item" href="mailto:concierge@aether.social?subject=Advertising%20with%20WealthCircle" title="Brand placements: advertising opportunities">
+              <Link aria-label="Brand placements: advertising opportunities" className="revenue-item" href="/app/grow/brand-placements" title="Brand placements: advertising opportunities">
                 <Megaphone size={17} />
                 <span><strong>Brand placements</strong><small>Advertising opportunities</small></span>
                 <ArrowUpRight size={14} />
-              </a>
-              <a aria-label="Circle sponsorship" className="revenue-item" href="mailto:concierge@aether.social?subject=Sponsored%20WealthCircle%20Circle" title="Circle sponsorship">
+              </Link>
+              <Link aria-label="Circle sponsorship" className="revenue-item" href="/app/grow/circle-sponsorship" title="Circle sponsorship">
                 <UsersRound size={17} />
                 <span><strong>Circle sponsorship</strong><small>Support a member community</small></span>
                 <ArrowUpRight size={14} />
-              </a>
-              <a aria-label="Private events" className="revenue-item" href="mailto:concierge@aether.social?subject=Private%20WealthCircle%20Event" title="Private events">
+              </Link>
+              <Link aria-label="Private events" className="revenue-item" href="/app/grow/private-events" title="Private events">
                 <CalendarDays size={17} />
                 <span><strong>Private events</strong><small>Host salons and experiences</small></span>
                 <ArrowUpRight size={14} />
-              </a>
-              <a aria-label="Corporate access" className="revenue-item" href="mailto:concierge@aether.social?subject=Corporate%20WealthCircle%20Membership" title="Corporate access">
+              </Link>
+              <Link aria-label="Corporate access" className="revenue-item" href="/app/grow/corporate-access" title="Corporate access">
                 <Building2 size={17} />
                 <span><strong>Corporate access</strong><small>Team and office memberships</small></span>
                 <ArrowUpRight size={14} />
-              </a>
-              <a aria-label="Strategic partnerships" className="revenue-item" href="mailto:concierge@aether.social?subject=WealthCircle%20Strategic%20Partnership" title="Strategic partnerships">
+              </Link>
+              <Link aria-label="Strategic partnerships" className="revenue-item" href="/app/grow/strategic-partnerships" title="Strategic partnerships">
                 <Handshake size={17} />
                 <span><strong>Strategic partnerships</strong><small>Co-branded programs</small></span>
                 <ArrowUpRight size={14} />
-              </a>
-              <a aria-label="Network services" className="revenue-item" href="mailto:concierge@aether.social?subject=WealthCircle%20Network%20Services" title="Network services">
+              </Link>
+              <Link aria-label="Network services" className="revenue-item" href="/app/grow/network-services" title="Network services">
                 <Network size={17} />
                 <span><strong>Network services</strong><small>Vetted member offerings</small></span>
                 <ArrowUpRight size={14} />
-              </a>
+              </Link>
             </section>
             <div className="sidebar-profile">
               <span className="avatar">{initials(name)}</span>
