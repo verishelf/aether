@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { FeedComposer } from "@/components/feed-composer";
+import { PostActions } from "@/components/post-actions";
 
 export default async function FeedPage() {
   const supabase = await createClient();
@@ -37,6 +38,7 @@ export default async function FeedPage() {
                   <strong>{postName}</strong>
                   <p>@{profile?.username || "member"} · {new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(new Date(post.created_at))}</p>
                 </div>
+                {post.user_id === user?.id && <PostActions body={post.body} postId={post.id} />}
               </div>
               <p className="post-copy">{post.body}</p>
             </article>

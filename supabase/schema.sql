@@ -78,6 +78,8 @@ drop policy if exists "public assets are visible to members" on public.assets;
 drop policy if exists "owners can manage assets" on public.assets;
 drop policy if exists "members can read posts" on public.posts;
 drop policy if exists "members can create posts" on public.posts;
+drop policy if exists "owners can update posts" on public.posts;
+drop policy if exists "owners can delete posts" on public.posts;
 drop policy if exists "owners can manage asset images" on storage.objects;
 
 create policy "profiles are visible to authenticated members" on public.profiles for select to authenticated using (true);
@@ -90,6 +92,8 @@ create policy "public assets are visible to members" on public.assets for select
 create policy "owners can manage assets" on public.assets for all to authenticated using (auth.uid() = user_id) with check (auth.uid() = user_id);
 create policy "members can read posts" on public.posts for select to authenticated using (true);
 create policy "members can create posts" on public.posts for insert to authenticated with check (auth.uid() = user_id);
+create policy "owners can update posts" on public.posts for update to authenticated using (auth.uid() = user_id) with check (auth.uid() = user_id);
+create policy "owners can delete posts" on public.posts for delete to authenticated using (auth.uid() = user_id);
 
 insert into storage.buckets (id, name, public) values ('asset-images', 'asset-images', false) on conflict (id) do nothing;
 create policy "owners can manage asset images" on storage.objects for all to authenticated using (bucket_id = 'asset-images' and (storage.foldername(name))[1] = auth.uid()::text) with check (bucket_id = 'asset-images' and (storage.foldername(name))[1] = auth.uid()::text);
