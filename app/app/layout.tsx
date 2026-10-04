@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, CreditCard, Handshake, Megaphone, Sparkles } from "lucide-react";
+import { ArrowUpRight, Bookmark, Building2, CalendarDays, CircleUserRound, Compass, CreditCard, Handshake, Megaphone, MessageCircle, Network, Sparkles, UsersRound } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AppHeader } from "@/components/app-header";
 import { redirect } from "next/navigation";
@@ -34,10 +34,18 @@ export default async function AppLayout({ children }: Readonly<{ children: React
       <div className="dashboard-content">
         <div className="app-shell">
           <aside className="app-sidebar">
+            <section className="sidebar-shortcuts">
+              <p className="eyebrow">Shortcuts</p>
+              <Link className="sidebar-shortcut" href={`/app/profile/${username}`}><CircleUserRound size={17} /><span>My profile</span></Link>
+              <Link className="sidebar-shortcut" href="/app/collection"><Bookmark size={17} /><span>Saved collection</span></Link>
+              <Link className="sidebar-shortcut" href="/app/circles"><UsersRound size={17} /><span>My circles</span></Link>
+              <Link className="sidebar-shortcut" href="/app/messages"><MessageCircle size={17} /><span>Messages</span></Link>
+              <Link className="sidebar-shortcut" href="/app/explore"><Compass size={17} /><span>Discover people</span></Link>
+            </section>
             <section className="revenue-panel">
-              <p className="eyebrow">Revenue</p>
+              <p className="eyebrow">Revenue opportunities</p>
               <h2>Grow with AETHER</h2>
-              <p className="revenue-intro">Thoughtful offers for brands aligned with our private community.</p>
+              <p className="revenue-intro">Reach a private, high-intent community through considered offers and experiences.</p>
               <Link className="revenue-item" href="/app/settings">
                 <CreditCard size={17} />
                 <span><strong>Membership</strong><small>Plans and billing</small></span>
@@ -45,12 +53,32 @@ export default async function AppLayout({ children }: Readonly<{ children: React
               </Link>
               <a className="revenue-item" href="mailto:concierge@aether.social?subject=Advertising%20with%20AETHER">
                 <Megaphone size={17} />
-                <span><strong>Advertising</strong><small>Curated placements</small></span>
+                <span><strong>Brand placements</strong><small>Advertising opportunities</small></span>
                 <ArrowUpRight size={14} />
               </a>
-              <a className="revenue-item" href="mailto:concierge@aether.social?subject=AETHER%20Partnership">
+              <a className="revenue-item" href="mailto:concierge@aether.social?subject=Sponsored%20AETHER%20Circle">
+                <UsersRound size={17} />
+                <span><strong>Circle sponsorship</strong><small>Support a member community</small></span>
+                <ArrowUpRight size={14} />
+              </a>
+              <a className="revenue-item" href="mailto:concierge@aether.social?subject=Private%20AETHER%20Event">
+                <CalendarDays size={17} />
+                <span><strong>Private events</strong><small>Host salons and experiences</small></span>
+                <ArrowUpRight size={14} />
+              </a>
+              <a className="revenue-item" href="mailto:concierge@aether.social?subject=Corporate%20AETHER%20Membership">
+                <Building2 size={17} />
+                <span><strong>Corporate access</strong><small>Team and office memberships</small></span>
+                <ArrowUpRight size={14} />
+              </a>
+              <a className="revenue-item" href="mailto:concierge@aether.social?subject=AETHER%20Strategic%20Partnership">
                 <Handshake size={17} />
-                <span><strong>Partnerships</strong><small>Build something together</small></span>
+                <span><strong>Strategic partnerships</strong><small>Co-branded programs</small></span>
+                <ArrowUpRight size={14} />
+              </a>
+              <a className="revenue-item" href="mailto:concierge@aether.social?subject=AETHER%20Network%20Services">
+                <Network size={17} />
+                <span><strong>Network services</strong><small>Vetted member offerings</small></span>
                 <ArrowUpRight size={14} />
               </a>
             </section>

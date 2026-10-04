@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Search, UsersRound } from "lucide-react";
+import { Boxes, Compass, Home, Layers3, MessageCircle, Search, Settings, UsersRound } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { MobileAppMenu } from "@/components/mobile-app-menu";
 
@@ -10,12 +10,12 @@ type OnlineMember = { name: string; role: string; initials: string };
 type AppHeaderProps = { name: string; email: string; username: string; onlineMembers: OnlineMember[] };
 
 const tabs = [
-  { href: "/app/feed", label: "Feed" },
-  { href: "/app/explore", label: "Explore" },
-  { href: "/app/circles", label: "Circles" },
-  { href: "/app/collection", label: "Collection" },
-  { href: "/app/messages", label: "Messages" },
-  { href: "/app/settings", label: "Settings" },
+  { href: "/app/feed", label: "Feed", icon: Home },
+  { href: "/app/explore", label: "Explore", icon: Compass },
+  { href: "/app/circles", label: "Circles", icon: Layers3 },
+  { href: "/app/collection", label: "Collection", icon: Boxes },
+  { href: "/app/messages", label: "Messages", icon: MessageCircle },
+  { href: "/app/settings", label: "Settings", icon: Settings },
 ];
 
 function initials(name: string) {
@@ -35,9 +35,9 @@ export function AppHeader({ name, email, username, onlineMembers }: AppHeaderPro
         <input type="search" placeholder="Search AETHER" />
       </label>
       <nav aria-label="Main navigation" className="top-tabs">
-        {tabs.map(({ href, label }) => {
+        {tabs.map(({ href, label, icon: Icon }) => {
           const active = pathname === href || (href !== "/app/feed" && pathname.startsWith(`${href}/`));
-          return <Link aria-current={active ? "page" : undefined} className={active ? "active" : undefined} href={href} key={href}>{label}</Link>;
+          return <Link aria-current={active ? "page" : undefined} aria-label={label} className={active ? "active" : undefined} href={href} key={href} title={label}><Icon aria-hidden="true" size={19} strokeWidth={1.7} /></Link>;
         })}
       </nav>
       <div className="topbar-actions">
