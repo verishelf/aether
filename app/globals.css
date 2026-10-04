@@ -427,3 +427,10 @@ body { font-size: 17px; }
 .revenue-panel { margin-top: 30px; }
 :root[data-theme="dark"] .top-tabs a:hover, :root[data-theme="dark"] .top-tabs a.active, :root[data-theme="dark"] .sidebar-shortcut:hover, :root[data-theme="dark"] .sidebar-shortcut:focus-visible { background: rgba(255,255,255,.08); color: #f5f5f3; }
 :root[data-theme="dark"] .sidebar-shortcut { color: #bbb; }
+
+/* Give the persistent left rail enough room for its labels and offers. */
+.app-shell { grid-template-columns: minmax(260px, 300px) minmax(0, 1fr) minmax(220px, 280px); }
+.app-sidebar { padding-left: clamp(18px, 2vw, 30px); padding-right: clamp(18px, 2vw, 30px); }
+@media (max-width: 1100px) and (min-width: 701px) {
+  .app-shell { grid-template-columns: minmax(250px, 280px) minmax(500px, 1fr) minmax(220px, 260px); min-width: 970px; }
+}
