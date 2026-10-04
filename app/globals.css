@@ -310,6 +310,9 @@ body { font-size: 17px; }
   .feed-heading { padding-top: 30px; }
 }
 
+.dashboard-content,
+.app-main-panel { background: var(--background); }
+
 :root[data-theme="dark"] body { background: #0b0c0b; color: #f2f1ee; }
 :root[data-theme="dark"] .manifesto,
 :root[data-theme="dark"] .principles,
