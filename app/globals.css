@@ -274,8 +274,12 @@ body { font-size: 17px; }
 .dashboard-content { height: 100dvh; overflow-x: auto; overflow-y: hidden; padding-top: 76px; }
 .app-shell { height: calc(100dvh - 76px); min-height: 0; }
 .app-sidebar, .app-rightbar { height: 100%; min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; position: relative; top: auto; }
-.app-main-panel { height: 100%; min-height: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-gutter: stable; }
+.app-main-panel { height: 100%; min-height: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-gutter: auto; }
 @media (max-width: 700px) {
   .dashboard-content { padding-top: 66px; }
   .app-shell { height: calc(100dvh - 66px); }
 }
+
+/* Keep scrolling available without showing scrollbar tracks or thumbs. */
+* { scrollbar-width: none; -ms-overflow-style: none; }
+*::-webkit-scrollbar { display: none; height: 0; width: 0; }

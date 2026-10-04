@@ -8,7 +8,12 @@ export default async function FeedPage() {
   const { data: { user } } = await supabase.auth.getUser();
   const name = String(user?.user_metadata?.full_name || user?.email?.split("@")[0] || "Member");
   const initials = name.split(" ").filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase() || "A";
-  const { data: posts } = await supabase.from("posts").select("id, body, created_at, profiles(display_name, username)").order("created_at", { ascending: false }).limit(30);
+  const { data: posts } = await supabase.from("posts").select("id, user_id, body, created_at").order("created_at", { ascending: false }).limit(30);
+  const userIds = [...new Set((posts ?? []).map((post) => post.user_id))];
+  const { data: profiles } = userIds.length
+    ? await supabase.from("profiles").select("id, display_name, username").in("id", userIds)
+    : { data: null };
+  const profilesById = new Map((profiles ?? []).map((profile) => [profile.id, profile]));
 
   return (
     <section className="feed">
@@ -21,7 +26,7 @@ export default async function FeedPage() {
 
       {posts?.length ? (
         posts.map((post) => {
-          const profile = Array.isArray(post.profiles) ? post.profiles[0] : post.profiles;
+          const profile = profilesById.get(post.user_id);
           const postName = profile?.display_name || profile?.username || "Member";
 
           return (
